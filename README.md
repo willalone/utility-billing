@@ -1,52 +1,91 @@
-# Система управления начислениями за коммунальные услуги
+# React интерфейс для системы управления начислениями
 
-Система для работы с базой данных граждан, пользующихся коммунальными услугами, с генерацией извещений на оплату в формате Excel.
+Современный веб-интерфейс для системы управления начислениями за коммунальные услуги.
 
 ## Установка и запуск
 
 ```bash
-pip install -r requirements.txt
-python main.py
+# Перейти в папку react-app
+cd react-app
+
+# Установить зависимости
+npm install
+
+# Запустить dev-сервер
+npm run dev
+
+# Собрать production версию
+npm run build
+
+# Предпросмотр production сборки
+npm run preview
 ```
+
+Приложение будет доступно по адресу `http://localhost:3000`
 
 ## Структура проекта
 
-- `main.py` - Главный модуль
-- `models.py` - Модели данных (Street, PersonalAccount, Service, Charge, PaymentNotice)
-- `database.py` - Класс для работы с базой данных
-- `date_time_utils.py` - Утилиты для работы с датой и временем
-- `chain_of_responsibility.py` - Паттерн Chain of Responsibility для обработки начислений
-- `excel_generator.py` - Генератор Excel-файлов
+```
+react-app/
+├── src/
+│   ├── components/          # React компоненты
+│   │   ├── Dashboard.jsx     # Главная страница со списком счетов
+│   │   ├── Dashboard.css
+│   │   ├── AccountDetails.jsx  # Детали счета и начисления
+│   │   └── AccountDetails.css
+│   ├── services/            # Сервисы для работы с данными
+│   │   ├── dataService.js   # Сервис для работы с БД
+│   │   └── excelService.js  # Сервис для генерации Excel
+│   ├── App.jsx              # Главный компонент
+│   ├── App.css
+│   ├── main.jsx            # Точка входа
+│   └── index.css           # Глобальные стили
+├── index.html
+├── vite.config.js          # Конфигурация Vite
+└── package.json
+```
 
 ## Функциональность
 
-1. **Классы для работы с датой и временем** - форматирование дат, получение названий месяцев
-2. **Модели данных** - улицы, лицевые счета, услуги, начисления
-3. **Паттерн Chain of Responsibility** - цепочка обработчиков:
-   - Валидация данных
-   - Применение скидки (5% при сумме > 5000 руб.)
-   - Стандартный расчет
-4. **Генерация Excel-файлов** - автоматическое создание извещений на оплату
+### Главная страница (Dashboard)
 
-## Контекстная диаграмма
+- Отображение списка всех лицевых счетов
+- Карточки с информацией о каждом счете
+- Переход к деталям счета по клику
 
-См. файл `context_diagram.txt`
+### Страница деталей (AccountDetails)
 
-## Пример использования
+- Полная информация о лицевом счете
+- Таблица начислений с услугами
+- Расчет итоговой суммы
+- Кнопка для скачивания Excel-файла с извещением
 
-```python
-from database import Database
-from main import init_database, create_payment_notice
-from chain_of_responsibility import ChargeProcessor
-from excel_generator import ExcelGenerator
-from datetime import date
+## Технологии
 
-db = init_database()
-processor = ChargeProcessor()
-excel_gen = ExcelGenerator()
+- **React 18** - UI библиотека
+- **Vite** - Сборщик и dev-сервер
+- **ExcelJS** - Генерация Excel файлов
+- **React Icons** - Иконки (Feather Icons)
+- **CSS3** - Стилизация с градиентами и анимациями
 
-today = date.today()
-notice = create_payment_notice(db, account_code=1, period_month=today.month, period_year=today.year)
-notice = processor.process_notice(notice)
-excel_gen.generate_payment_notice(notice, "извещение.xlsx")
-```
+## Особенности дизайна
+
+- Современный градиентный дизайн
+- Адаптивная верстка для мобильных устройств
+- Плавные анимации и переходы
+- Интуитивно понятный интерфейс
+- Использование иконок вместо текста где возможно
+
+## Интеграция с основным проектом
+
+React приложение использует классы и логику из основного проекта:
+
+- `Database`, `models.js` - для работы с данными
+- `chainOfResponsibility.js` - для обработки начислений
+- `dateTimeUtils.js` - для работы с датами
+
+## Разработка
+
+Проект использует Vite для быстрой разработки с Hot Module Replacement (HMR).
+
+Для добавления новых компонентов создавайте файлы в `src/components/` и импортируйте их в нужных местах.
